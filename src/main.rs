@@ -21,7 +21,10 @@ impl Game{
 
     pub fn play(&mut self){
         loop {
-            self.display_board(); 
+            self.display_board();
+            if self.check_win() {
+                return;
+            }
             self.switch_player(); 
     
             self.take_turn();
@@ -69,6 +72,30 @@ impl Game{
         if self.board[row][column] == ' ' {
             self.board[row][column] = self.current_player
         }
+
+    }
+    
+    pub fn check_win(&self) -> bool{
+
+        for row in 0..3  {
+           let row_values = &self.board[row];
+
+            if &row_values[0] == &self.current_player && &row_values[1] == &self.current_player && &row_values[2] == &self.current_player{
+                println!("Player {:?} has won!",&self.current_player);
+                return true;
+            }
+            return false;
+
+        }
+        for column in 0..3  {
+            if &self.board[0][column] == &self.current_player && &self.board[1][column] == &self.current_player && &self.board[2][column] == &self.current_player {
+                println!("Player {:?} has won!",&self.current_player);
+                return true;
+            }
+        }
+
+        return false;
+        
     }
 }
 
